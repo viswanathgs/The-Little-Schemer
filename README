@@ -1,15 +1,14 @@
 A repo of Scheme code snippets from the book "The Little Schemer", 
 4th edition, by Daniel P. Friedman and Matthias Felleisen.
 
-The inspiration behind learning LISP (and hence purchasing this 
-book) was Eric Raymond's widely popular article titled "How To Become 
-A Hacker" (http://www.catb.org/~esr/faqs/hacker-howto.html), in which
-he says,
+The inspiration behind learning LISP (and hence purchasing this book) 
+was Eric Raymond's widely popular article titled "How To Become A Hacker" 
+(http://www.catb.org/~esr/faqs/hacker-howto.html), in which he says,
 
     "LISP is worth learning for a different reason â€” the profound 
      enlightenment experience you will have when you finally get it. 
-     That experience will make you a better programmer for the rest of 
-     your days, even if you never actually use LISP itself a lot".
+     That experience will make you a better programmer for the rest 
+     of your days, even if you never actually use LISP itself a lot".
 
 
 Get yourself a copy of this awesome book from Flipkart: http://bit.ly/AcxZAH
