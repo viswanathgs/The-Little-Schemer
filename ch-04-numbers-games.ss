@@ -347,3 +347,5 @@
     (cond
       ((one? n) (cdr lat))
       (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+;
+(rempick '3 '(lemon meringue salty pie))
