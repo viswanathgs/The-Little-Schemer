@@ -244,3 +244,249 @@
 ;
 ; Refer Turing's halting problem and Godel's incompleteness theorems.
 ;
+
+; <awesomeness>
+
+; Y-Combinator:
+;
+; A clever construct that allows an anonymous function to call itself,
+; i.e., it allows anonymous function recursion.
+;
+; The rest of this chapter is Y-Combinator derivation.
+;
+
+; For reference's sake, define len.
+;
+(define len
+  (lambda (l)
+    (cond
+      ((null? l) 0)
+      (else (+ 1 (len (cdr l)))))))
+
+; The following function determines the length
+; of the empty list and nothing else. Note that 
+; the function is anonymous.
+;
+(lambda (l)
+  (cond
+    ((null? l) 0)
+    (else (+ 1 (eternity (cdr l))))))
+
+; Anonymous function that determines the length of
+; lists that contain <= 1 element.
+;
+(lambda (l)
+  (cond
+    ((null? l) 0)
+    (else 
+      (+ 1
+        ((lambda (l)
+          (cond
+            ((null? l) 0)
+            (else (+ 1 (eternity (cdr l)))))) 
+         (cdr l))))))
+
+; Function that determines the length of lists
+; with <= 2 elements.
+;
+(lambda (l)
+  (cond
+    ((null? l) 0)
+    (else 
+      (+ 1 
+        ((lambda (l)
+          (cond
+            ((null? l) 0)
+            (else 
+              (+ 1 
+                ((lambda (l)
+                  (cond
+                    ((null? l) 0)
+                    (else (+ 1 (eternity (cdr l))))))
+                 (cdr l))))))
+         (cdr l))))))
+
+; Removing repetition by abstracting
+;
+; Function to calculate length of just empty list.
+;
+((lambda (len)
+  (lambda (l)
+    (cond
+      ((null? l) 0)
+      (else (+ 1 (len (cdr l)))))))
+ eternity)
+
+; For lists with length <= 1
+;
+((lambda (len)
+  (lambda (l)
+    (cond
+      ((null? l) 0)
+      (else (+ 1 (len (cdr l)))))))
+ ((lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l)))))))
+  eternity))
+
+; For lists with length <= 2
+;
+((lambda (len)
+  (lambda (l)
+    (cond
+      ((null? l) 0)
+      (else (+ 1 (len (cdr l)))))))
+ ((lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l)))))))
+  ((lambda (len)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (+ 1 (len (cdr l)))))))
+   eternity)))
+ 
+; Name the function that takes len as an argument
+; and that returns a function that looks like len.
+;
+; For empty lists
+;
+((lambda (mk-length)
+  (mk-length eternity))
+ (lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l))))))))
+
+; For lists with length <= 1
+;
+((lambda (mk-length)
+  (mk-length (mk-length eternity)))
+ (lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l))))))))
+
+; For lists with length <= 2
+;
+((lambda (mk-length)
+  (mk-length (mk-length (mk-length eternity))))
+ (lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l))))))))
+
+; Here comes the clever trick
+;
+; Works only for empty lists because the mk-length
+; in else is supposed to take a function as an argument
+; (like mk-length or eternity) so that it returns the 
+; appropriate length function for (cdr l).
+;
+((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (mk-length (cdr l))))))))
+
+; For lists with length <= 1
+;
+((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 ((mk-length eternity) (cdr l))))))))
+
+; For all lists. Finally. But wait, this isn't Y-Combinator.
+;
+((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 ((mk-length mk-length) (cdr l))))))))
+
+; Example
+;
+(((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 ((mk-length mk-length) (cdr l))))))))
+ '(a b c 1 g))  ; 5
+
+; Currying to make the inner function look more like len
+;
+; But the below function would overflow the recursion stack as
+; we keep applying mk-length to itself repeatedly.
+;
+((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   ((lambda (len)
+     (lambda (l)
+       (cond
+         ((null? l) 0)
+         (else (+ 1 (len (cdr l)))))))
+    (mk-length mk-length)))) ; Aborting!: maximum recursion depth exceeded
+
+; To overcome this problem, convert the application of 
+; mk-length to itself (mk-length mk-length) into a function.
+;
+((lambda (mk-length)
+  (mk-length mk-length))
+ (lambda (mk-length)
+   ((lambda (len)
+     (lambda (l)
+       (cond
+         ((null? l) 0)
+         (else (+ 1 (len (cdr l)))))))
+    (lambda (x) ((mk-length mk-length) x)))))
+
+; Separating the length function by giving it a name
+;
+((lambda (le)
+  ((lambda (mk-length)
+    (mk-length mk-length))
+   (lambda (mk-length)
+     (le (lambda (x) ((mk-length mk-length) x))))))
+ (lambda (len)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (+ 1 (len (cdr l))))))))
+
+; Separating the function that makes len from the 
+; function that looks like len
+;
+(lambda (le)
+  ((lambda (mk-length)
+    (mk-length mk-length))
+   (lambda (mk-length)
+     (le (lambda (x) ((mk-length mk-length) x))))))
+
+; This function is called the applicative-order Y combinator
+;
+(define Y
+  (lambda (le)
+    ((lambda (f) (f f))
+     (lambda (f)
+       (le (lambda (x) ((f f) x)))))))
+
+; </awesomeness>
+
+; My hat sure doesn't fit anymore.
