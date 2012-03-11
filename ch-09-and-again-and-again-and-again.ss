@@ -487,6 +487,14 @@
      (lambda (f)
        (le (lambda (x) ((f f) x)))))))
 
+; Example
+((Y  
+  (lambda (len)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (+ 1 (len (cdr l))))))))
+'(a b c 1 g)) ; 5
 ; </awesomeness>
 
 ; My hat sure doesn't fit anymore.
