@@ -215,7 +215,7 @@
 ; Define will-stop?
 ;
 ; Allegedly returns #t if the function passed to it
-; as the arguments stops when applied to (), #f otherwise.
+; as the argument stops when applied to '(), #f otherwise.
 ;
 ; (define will-stop?
 ;   (lambda (f)
