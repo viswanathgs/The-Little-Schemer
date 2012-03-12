@@ -78,7 +78,7 @@
   (lambda (p)
     (car p)))
 
-; Define second (from chapter 08)
+; Define second (from chapter 07)
 ;
 ; Second of a pair.
 ;
@@ -86,7 +86,7 @@
   (lambda (p)
     (car (cdr p))))
 
-; Define build
+; Define build (from chapter 07)
 ; 
 ; Builds a pair from two S-expressions.
 ;
