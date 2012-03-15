@@ -1,6 +1,8 @@
 A repo of Scheme code snippets from the book "The Little Schemer", 
 4th edition, by Daniel P. Friedman and Matthias Felleisen. 
 
+All the programs were written using MIT/GNU Scheme 9.1.1.
+
 The inspiration behind learning LISP (and hence the purchase of this 
 book) was Eric Raymond's widely popular article "How To Become A Hacker" 
 (http://www.catb.org/~esr/faqs/hacker-howto.html), in which he says,
