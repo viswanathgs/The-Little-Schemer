@@ -244,7 +244,7 @@
 ;   ((apple peaches) (pumpkin pie)) is a rel.
 ;   ((apple peaches) (pumpkin pie) (apple peaches)) is not a rel.
 ;
-;	fun:
+; fun:
 ;   A function (fun) is a rel in which the
 ;   firsts of each pair in the rel form a set.
 ;   (fun here refers to mathematical functions)
