@@ -237,7 +237,7 @@
 ; This means (will-stop? last-try) cannot be #f.
 ;
 ; If (will-stop? last-try) is #t, then (eternity '()) will
-; get executed, means that last-try would not stop.
+; get executed, which means that last-try would not stop.
 ; Hence, (will-stop? last-try) cannot be #t also.
 ;
 ; will-stop? cannot be defined.
